@@ -20,6 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+      <link rel="icon" href="/CoinsIcon.png" type="image/x-icon" />
+  <title>P2PVerse</title>
+</head>
       <body className={inter.className}>
         <ClientProvider>
           <ThemeProvider
