@@ -19,34 +19,47 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 export function PostAdForm({ onSubmit }) {
   const { user } = useAuth();
   const form = useForm({
     // ... existing form configuration ...
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleposting = async () => {
-    const formValues = form.getValues();
-    const response = await fetch('/api/postAd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...formValues,
-        action: formValues.action.toLowerCase(),
-        userId: user.id,
-        userName: `${user.firstName} ${user.lastName}`,
-      }),
-    });
+    setIsLoading(true);
+    try {
+      const formValues = form.getValues();
+      const response = await fetch('/api/postAd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formValues,
+          action: formValues.action.toLowerCase(),
+          userId: user.id,
+          userName: `${user.firstName} ${user.lastName}`,
+        }),
+      });
   
-    if (response.ok) {
-      const data = await response.json();
-      onSubmit(data);ß
-    } else {
-      const errorData = await response.json();
-      console.error('Failed to post ad:', errorData.message);
+      if (response.ok) {
+        const data = await response.json();
+        onSubmit(data);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to post ad",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   
@@ -155,9 +168,14 @@ export function PostAdForm({ onSubmit }) {
           )}
         />
 
-        <Button type="submit" className="w-full" onClick={handleposting}>
+        <LoadingButton 
+          type="submit" 
+          className="w-full" 
+          onClick={handleposting}
+          loading={isLoading}
+        >
           Post Advertisement
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );

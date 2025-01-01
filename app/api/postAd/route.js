@@ -17,23 +17,26 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
   try {
     await dbConnect();
     const adData = await request.json();
 
-    // Validate the incoming data
     if (!adData.coinType || !adData.price || !adData.quantity || !adData.contactNumber || !adData.email || !adData.action) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
-    // Create new ad document
     const ad = await Ad.create({
       ...adData,
       status: 'open'
     });
     
+    clearTimeout(timeoutId);
     return NextResponse.json(ad, { status: 201 });
   } catch (error) {
+    clearTimeout(timeoutId);
     console.error('Error processing POST request:', error);
     return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }

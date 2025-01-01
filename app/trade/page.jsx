@@ -93,8 +93,8 @@ export default function TradePage() {
       </Card>
 
       <div className={styles.choose}>
-        <div className={styles.choosecard} onClick={handleActionBuy}>Buy</div>
-        <div className={styles.choosecard} onClick={handleActionSell}>Sell</div>
+        <div className={`${styles.choosecard} ${selectedAction === 'buy' ? styles.selectedAction : ''}`} onClick={handleActionBuy}>Buy</div>
+        <div className={`${styles.choosecard} ${selectedAction === 'sell' ? styles.selectedAction : ''}`} onClick={handleActionSell}>Sell</div>
       </div>
 
       <Card>
@@ -119,8 +119,6 @@ export default function TradePage() {
                   <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
                   Contact {listing.action !== "sell" ? 'seller' : 'Buyer'}
                   </Button>
-                  {console.log("ads", ads)}
-                  {console.log("list", listing)}
                   <ContactModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

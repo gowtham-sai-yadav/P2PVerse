@@ -8,10 +8,12 @@ import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,6 +25,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -50,6 +53,8 @@ export default function LoginPage() {
         description: error.message || "Login failed",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,9 +83,9 @@ export default function LoginPage() {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <LoadingButton type="submit" className="w-full" loading={isLoading}>
             Login
-          </Button>
+          </LoadingButton>
           <p className="text-center mt-4">
             Dont have an account?{" "}
             <Link href="/auth/signup" className="text-primary hover:underline">

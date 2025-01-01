@@ -4,6 +4,9 @@ import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
 export async function POST(request) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+
   try {
     await dbConnect();
     const { email, password } = await request.json();
@@ -32,12 +35,14 @@ export async function POST(request) {
       isKycVerified: user.isKycVerified
     };
 
+    clearTimeout(timeoutId);
     return NextResponse.json({ 
       message: 'Login successful',
       user: userData
     }, { status: 200 });
 
   } catch (error) {
+    clearTimeout(timeoutId);
     console.error('Error in login:', error);
     return NextResponse.json({ 
       message: 'Login failed',
