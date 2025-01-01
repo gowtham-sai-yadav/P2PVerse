@@ -104,6 +104,7 @@ export default function TradePage() {
               <TableHead>Coin</TableHead>
               <TableHead>Price (INR)</TableHead>
               <TableHead>Quantity</TableHead>
+              
               <TableHead>Seller</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
