@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -14,13 +14,9 @@ export default function MyAdsPage() {
   const [selectedAction, setSelectedAction] = useState("buy");
   const [ads, setAds] = useState([]);
 
-  useEffect(() => {
-    if (user) {
-      fetchMyAds();
-    }
-  }, [user]);
-
-  const fetchMyAds = async () => {
+  const fetchMyAds = useCallback(async () => {
+    if (!user) return;
+    
     try {
       const response = await fetch(`/api/ads/user/${user.id}`);
       if (response.ok) {
@@ -30,7 +26,11 @@ export default function MyAdsPage() {
     } catch (error) {
       console.error('Error fetching ads:', error);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchMyAds();
+  }, [fetchMyAds]);
 
   const handleActionBuy = () => {
     setSelectedAction("buy");
