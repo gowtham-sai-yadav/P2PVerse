@@ -28,9 +28,9 @@ const Navbar = () => {
               <Link href="/my-ads">
                 <Button variant="ghost">My Ads</Button>
               </Link>
-              <Link href="/profile">
+              {/* <Link href="/profile">
                 <Button variant="ghost">Profile</Button>
-              </Link>
+              </Link> */}
               <Button variant="ghost" onClick={logout}>
                 Logout
               </Button>

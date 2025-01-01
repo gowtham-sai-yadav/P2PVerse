@@ -1,16 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CoinPriceDisplay } from "@/components/price/CoinPriceDisplay";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -23,46 +17,41 @@ import styles from '../../style/custom.module.scss';
 
 export default function TradePage() {
   const [selectedCoin, setSelectedCoin] = useState("all");
-  const [selectedAction, setSelectedAction] = useState("Buy");
+  const [selectedAction, setSelectedAction] = useState("buy");
   const [ads, setAds] = useState([]);
 
-  const handleActionBuy = () => {
-    setSelectedAction("Buy");
-  };
-
-  const handleActionSell = () => {
-    setSelectedAction("Sell");
-  };
-
   useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const response = await fetch('/api/postAd');
-        if (response.ok) {
-          const data = await response.json();
-          setAds(data);
-          console.log('Fetched ads:', data); // Debugging line
-        } else {
-          console.error('Failed to fetch ads');
-        }
-      } catch (error) {
-        console.error('Error fetching ads:', error);
-      }
-    };
-
-    
-
     fetchAds();
   }, []);
 
-  useEffect(() => {
-   console.log("ebfr", ads)
-  }, [ads]);
-  
+  const fetchAds = async () => {
+    try {
+      const response = await fetch('/api/postAd');
+      if (response.ok) {
+        const data = await response.json();
+        setAds(data.filter(ad => ad.status === 'open'));
+      } else {
+        console.error('Failed to fetch ads');
+      }
+    } catch (error) {
+      console.error('Error fetching ads:', error);
+    }
+  };
 
-  const filteredListings = selectedCoin === "all" 
-    ? ads.filter(listing => listing.action === selectedAction) 
-    : ads.filter(listing => listing.coinType === selectedCoin && listing.action === selectedAction);
+  const handleActionBuy = () => {
+    setSelectedAction("buy");
+  };
+
+  const handleActionSell = () => {
+    setSelectedAction("sell");
+  };
+
+  const filteredListings = selectedCoin === "all"
+    ? ads.filter(listing => listing.action === selectedAction.toLowerCase())
+    : ads.filter(listing => 
+        listing.coinType === selectedCoin && 
+        listing.action === selectedAction.toLowerCase()
+      );
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -20,17 +20,22 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
 
-export function PostAdForm({ form, onSubmit }) {
+export function PostAdForm({ onSubmit }) {
   const { user } = useAuth();
+  const form = useForm({
+    // ... existing form configuration ...
+  });
 
   const handleposting = async () => {
+    const formValues = form.getValues();
     const response = await fetch('/api/postAd', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        ...form.getValues(),
+        ...formValues,
+        action: formValues.action.toLowerCase(),
         userId: user.id,
         userName: `${user.firstName} ${user.lastName}`,
       }),
@@ -38,7 +43,7 @@ export function PostAdForm({ form, onSubmit }) {
   
     if (response.ok) {
       const data = await response.json();
-      onSubmit(data);
+      onSubmit(data);ß
     } else {
       const errorData = await response.json();
       console.error('Failed to post ad:', errorData.message);
@@ -48,7 +53,7 @@ export function PostAdForm({ form, onSubmit }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleposting)} className="space-y-8">
+      <form className="space-y-8">
         <FormField
           control={form.control}
           name="coinType"

@@ -34,6 +34,7 @@ const AdSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ['buy', 'sell'],
+    lowercase: true,
   },
   status: {
     type: String,
