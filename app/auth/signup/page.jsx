@@ -18,8 +18,7 @@ export default function SignupPage() {
     phone: "",
     password: "",
     confirmPassword: "",
-    emailOtp: "",
-    phoneOtp: "",
+    emailOtp: ""
   });
   const { login } = useAuth();
 
@@ -46,15 +45,14 @@ export default function SignupPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: formData.email,
-          phone: formData.phone,
+          email: formData.email
         }),
       });
 
       if (response.ok) {
         toast({
           title: "OTP Sent",
-          description: "Please check your email and phone for OTP verification.",
+          description: "Please check your email for OTP verification.",
         });
         setStep(2);
       } else {
@@ -183,7 +181,7 @@ export default function SignupPage() {
                 required
               />
             </div>
-            <div>
+            {/* <div>
               <label className="block mb-2">Phone OTP</label>
               <Input
                 type="text"
@@ -192,7 +190,7 @@ export default function SignupPage() {
                 onChange={handleChange}
                 required
               />
-            </div>
+            </div> */}
             <Button type="submit" className="w-full">
               Verify OTP
             </Button>

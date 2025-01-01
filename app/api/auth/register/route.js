@@ -10,7 +10,6 @@ export async function POST(request) {
     const { 
       email, 
       emailOtp, 
-      phoneOtp, 
       password,
       firstName,
       lastName,
@@ -25,7 +24,7 @@ export async function POST(request) {
     }
 
     // Verify OTPs
-    if (user.emailOtp !== emailOtp || user.phoneOtp !== phoneOtp) {
+    if (user.emailOtp !== emailOtp) {
       return NextResponse.json({ message: 'Invalid OTP' }, { status: 400 });
     }
 
@@ -47,7 +46,6 @@ export async function POST(request) {
         password: hashedPassword,
         dateOfActivation: new Date(),
         emailOtp: undefined,
-        phoneOtp: undefined,
         otpExpiry: undefined
       },
       { new: true }
