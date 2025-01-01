@@ -50,6 +50,17 @@ export default function Home() {
           </p>
         </Card>
       </div>
+     <div>
+      <p className="text-xl text-center text-muted-foreground mt-16">
+          Made with love ❤️ by Gowtham for the Community
+        </p>
+        </div>
+        <div>
+      <p className="text-xl text-center text-muted-foreground mt-2">
+              For Feedback - gowthamyadav022@gmail.com / +91 9391758678
+        </p>
+        </div>
+        
     </div>
   );
 }

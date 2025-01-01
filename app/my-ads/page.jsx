@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { format } from 'date-fns';
 import { useAuth } from "@/contexts/AuthContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -162,6 +163,9 @@ export default function MyAdsPage() {
                     </Button>
                   </>
                 )}
+                 <p className="mt-2 text-end">
+                     {format(new Date(ad.createdAt), 'dd-MM-yy HH:mm:ss')}
+                </p>
               </div>
             </div>
           </Card>

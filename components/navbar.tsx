@@ -17,6 +17,9 @@ const Navbar = () => {
           <span className="font-bold text-xl">P2PVerse</span>
         </Link>
         <div className="ml-auto flex items-center space-x-4">
+        <Link href="/donate">
+            <Button variant="ghost">Donate</Button>
+          </Link>
           <Link href="/trade">
             <Button variant="ghost">Trade</Button>
           </Link>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CoinPriceDisplay } from "@/components/price/CoinPriceDisplay";
+import ContactModal from "../../components/ContactModal"
 import {
   Table,
   TableBody,
@@ -19,6 +19,8 @@ export default function TradePage() {
   const [selectedCoin, setSelectedCoin] = useState("all");
   const [selectedAction, setSelectedAction] = useState("buy");
   const [ads, setAds] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     fetchAds();
@@ -114,13 +116,22 @@ export default function TradePage() {
                 <TableCell>{listing.quantity}</TableCell>
                 <TableCell>{listing.userName}</TableCell>
                 <TableCell>
-                  <Button variant="outline" size="sm">
-                    Contact Seller
+                  <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
+                  Contact {listing.action !== "sell" ? 'seller' : 'Buyer'}
                   </Button>
+                  {console.log("ads", ads)}
+                  {console.log("list", listing)}
+                  <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        listing={listing}
+        userType={listing.action !== "sell" ? 'seller' : 'buyer'}
+      />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
+       
         </Table>
       </Card>
     </div>
