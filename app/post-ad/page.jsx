@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { PostAdForm } from "@/components/post-ad/post-ad-form";
 import { useState } from "react";
 import { Action } from "@radix-ui/react-toast";
+import styles from "../../style/custom.module.scss"
 
 const formSchema = z.object({
   coinType: z.string(),
@@ -47,7 +48,7 @@ export default function PostAdPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Post a P2P Trading Ad</h1>
-      <Card className="max-w-2xl mx-auto p-6">
+      <Card className={`max-w-2xl mx-auto p-6 ${styles.formContainer}`}>
         {!isPosted ? (<PostAdForm form={form} onSubmit={onSubmit} />) : (<h1>Ad has been Posted...</h1>)}
       </Card>
     </div>

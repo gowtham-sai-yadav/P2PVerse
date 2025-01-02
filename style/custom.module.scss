@@ -88,3 +88,15 @@
         margin-bottom: 5px;
     }
 }
+
+.formContainer {
+    @media screen and (max-width: 768px) {
+       width: 398px;
+    }
+}
+
+.tradeContainer {
+    @media screen and (max-width: 768px) {
+        width: 450px;
+     }
+}

@@ -1,9 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Shield, Users, Wallet } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
+  const { user } = useAuth();
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center max-w-3xl mx-auto mb-16">
@@ -17,12 +21,12 @@ export default function Home() {
           For Better Experience Open in Laptop/Computer
         </p>
         <div className="flex justify-center gap-4">
-          <Link href="/trade">
+          <Link href={`${user ? '/trade' : '/auth/login'}`}>
             <Button size="lg">
               Start Trading <ArrowRight className="ml-2" />
             </Button>
           </Link>
-          <Link href="/post-ad">
+          <Link href={`${user ? '/post-ad' : '/auth/login'}`}>
             <Button size="lg" variant="outline">
               Post an Ad
             </Button>
@@ -53,17 +57,16 @@ export default function Home() {
           </p>
         </Card>
       </div>
-     <div>
-      <p className="text-xl text-center text-muted-foreground mt-16">
+      <div>
+        <p className="text-xl text-center text-muted-foreground mt-16">
           Made with love ❤️ by Gowtham for the Community
         </p>
-        </div>
-        <div>
-      <p className="text-xl text-center text-muted-foreground mt-2">
-              For Feedback - gowthamyadav022@gmail.com / +91 9391758678
+      </div>
+      <div>
+        <p className="text-xl text-center text-muted-foreground mt-2">
+          For Feedback - gowthamyadav022@gmail.com / +91 9391758678
         </p>
-        </div>
-        
+      </div>
     </div>
   );
 }

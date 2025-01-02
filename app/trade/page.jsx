@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ContactModal from "../../components/ContactModal"
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Table,
   TableBody,
@@ -14,13 +15,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import styles from '../../style/custom.module.scss';
+import { useRouter } from 'next/navigation';
 
 export default function TradePage() {
   const [selectedCoin, setSelectedCoin] = useState("all");
   const [selectedAction, setSelectedAction] = useState("buy");
   const [ads, setAds] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     fetchAds();
@@ -49,14 +52,14 @@ export default function TradePage() {
   };
 
   const filteredListings = selectedCoin === "all"
-    ? ads.filter(listing => listing.action === selectedAction.toLowerCase())
+    ? ads.filter(listing => listing.action !== selectedAction.toLowerCase())
     : ads.filter(listing => 
         listing.coinType === selectedCoin && 
-        listing.action === selectedAction.toLowerCase()
+        listing.action !== selectedAction.toLowerCase()
       );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className={`container mx-auto px-4 py-8 ${styles.tradeContainer}`}>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">P2P Trading</h1>
         <Select value={selectedCoin} onValueChange={setSelectedCoin}>
@@ -116,15 +119,25 @@ export default function TradePage() {
                 <TableCell>{listing.quantity}</TableCell>
                 <TableCell>{listing.userName}</TableCell>
                 <TableCell>
-                  <Button variant="outline" size="sm" onClick={() => setIsModalOpen(true)}>
-                  Contact {listing.action !== "sell" ? 'seller' : 'Buyer'}
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => {
+                      if (user) {
+                        setIsModalOpen(true);
+                      } else {
+                        router.push('/auth/login');
+                      }
+                    }}
+                  >
+                    Contact {listing.action !== "sell" ? 'Seller' : 'Buyer'}
                   </Button>
                   <ContactModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        listing={listing}
-        userType={listing.action !== "sell" ? 'seller' : 'buyer'}
-      />
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    listing={listing}
+                    userType={listing.action !== "sell" ? 'seller' : 'buyer'}
+                  />
                 </TableCell>
               </TableRow>
             ))}

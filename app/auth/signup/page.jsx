@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -26,15 +27,82 @@ export default function SignupPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitDetails = async (e) => {
-    e.preventDefault();
-    
+  const validateForm = () => {
+    // Name validation
+    if (formData.firstName.trim().length < 2) {
+      toast({
+        title: "Error",
+        description: "First name must be at least 2 characters long",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (formData.lastName.trim().length < 2) {
+      toast({
+        title: "Error",
+        description: "Last name must be at least 2 characters long",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email address",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    // Phone validation
+    try {
+      if (!isValidPhoneNumber(formData.phone, 'IN')) { // 'IN' for India, adjust if needed
+        toast({
+          title: "Error",
+          description: "Please enter a valid phone number",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid phone number",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    // Password validation
+    if (formData.password.length < 8) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 8 characters long",
+        variant: "destructive",
+      });
+      return false;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Error",
         description: "Passwords do not match",
         variant: "destructive",
       });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmitDetails = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
       return;
     }
 
@@ -108,61 +176,73 @@ export default function SignupPage() {
         {step === 1 ? (
           <form onSubmit={handleSubmitDetails} className="space-y-4">
             <div>
-              <label className="block mb-2">First Name</label>
+              <label className="block mb-2">First Name <span className="text-red-500">*</span></label>
               <Input
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Enter your first name"
               />
             </div>
             <div>
-              <label className="block mb-2">Last Name</label>
+              <label className="block mb-2">Last Name <span className="text-red-500">*</span></label>
               <Input
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Enter your last name"
               />
             </div>
             <div>
-              <label className="block mb-2">Email</label>
+              <label className="block mb-2">Email <span className="text-red-500">*</span></label>
               <Input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Enter your email"
               />
             </div>
             <div>
-              <label className="block mb-2">Phone Number</label>
+              <label className="block mb-2">Phone Number <span className="text-red-500">*</span></label>
               <Input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Enter your phone number"
               />
             </div>
             <div>
-              <label className="block mb-2">Password</label>
+              <label className="block mb-2">Password <span className="text-red-500">*</span></label>
               <Input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Enter password (min. 8 characters)"
               />
             </div>
             <div>
-              <label className="block mb-2">Confirm Password</label>
+              <label className="block mb-2">Confirm Password <span className="text-red-500">*</span></label>
               <Input
                 type="password"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                className="w-full"
+                placeholder="Confirm your password"
               />
             </div>
             <Button type="submit" className="w-full">
