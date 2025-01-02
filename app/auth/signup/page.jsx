@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { isValidPhoneNumber } from 'libphonenumber-js';
+import { LoadingButton } from "@/components/ui/loading-button";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function SignupPage() {
     emailOtp: ""
   });
   const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -101,8 +103,10 @@ export default function SignupPage() {
 
   const handleSubmitDetails = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
@@ -133,11 +137,14 @@ export default function SignupPage() {
         description: error.message || "Failed to send OTP",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -165,6 +172,8 @@ export default function SignupPage() {
         description: error.message || "Registration failed",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -245,9 +254,9 @@ export default function SignupPage() {
                 placeholder="Confirm your password"
               />
             </div>
-            <Button type="submit" className="w-full">
+            <LoadingButton type="submit" className="w-full" loading={isLoading}>
               Send OTP
-            </Button>
+            </LoadingButton>
           </form>
         ) : (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
@@ -271,9 +280,9 @@ export default function SignupPage() {
                 required
               />
             </div> */}
-            <Button type="submit" className="w-full">
+            <LoadingButton type="submit" className="w-full" loading={isLoading}>
               Verify OTP
-            </Button>
+            </LoadingButton>
           </form>
         )}
       </Card>
