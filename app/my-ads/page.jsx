@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import styles from "../../style/custom.module.scss"
 
 export default function MyAdsPage() {
   const { user } = useAuth();
@@ -144,20 +145,20 @@ export default function MyAdsPage() {
                 <p className="text-muted-foreground">Quantity: {ad.quantity}</p>
                 <p className="text-muted-foreground">Type: {ad.action}</p>
               </div>
-              <div className="space-x-2">
+              <div>
                 {ad.status === 'open' && (
                   <>
                     <Button
                       onClick={() => updateAdStatus(ad._id, 'completed')}
                       variant="outline"
-                      className="bg-green-500 text-white hover:bg-green-600"
+                      className={`bg-green-500 text-white hover:bg-green-600 ${styles.myAdsAction}`}
                     >
                       Mark Completed
                     </Button>
                     <Button
                       onClick={() => updateAdStatus(ad._id, 'cancelled')}
                       variant="outline"
-                      className="bg-red-500 text-white hover:bg-red-600"
+                      className={`bg-red-500 mx-2 text-white hover:bg-red-600 ${styles.myAdsAction}`}
                     >
                       Cancel
                     </Button>

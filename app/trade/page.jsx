@@ -75,7 +75,7 @@ export default function TradePage() {
       <Card className="mb-8">
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Live Market Prices</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className={styles.prices}>
             <div className="p-4 bg-secondary rounded-lg">
               <div className="text-sm text-muted-foreground">UBIT/INR</div>
               <div className="text-2xl font-bold">₹7.20 / $0.08</div>

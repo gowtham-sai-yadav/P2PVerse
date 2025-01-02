@@ -55,3 +55,36 @@
     background-color: #262626;
     border-radius: 4px;
 }
+
+.prices {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.walletAddress {
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+    }
+}
+
+.contact {
+    @media screen and (max-width: 768px) {
+        position: absolute;
+        left: 0px;
+        top: 23%;
+    }
+}
+ 
+.myAdsAction {
+    @media screen and (max-width: 768px) {
+        margin-left: 90px;
+        margin-bottom: 5px;
+    }
+}

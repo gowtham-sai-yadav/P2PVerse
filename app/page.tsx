@@ -10,8 +10,11 @@ export default function Home() {
         <h1 className="text-4xl font-bold tracking-tight mb-4">
           Welcome to P2PVerse
         </h1>
-        <p className="text-xl text-muted-foreground mb-8">
+        <p className="text-xl text-muted-foreground mb-4">
           The secure way to trade UBIT, USC, and Ultraverse Coins peer-to-peer
+        </p>
+        <p className=" mb-4">
+          For Better Experience Open in Laptop/Computer
         </p>
         <div className="flex justify-center gap-4">
           <Link href="/trade">

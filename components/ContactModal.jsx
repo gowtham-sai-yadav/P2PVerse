@@ -1,6 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
 
+import styles from "../style/custom.module.scss"
+
 const ContactModal = ({ isOpen, onClose, listing, userType }) => {
   return (
     <Modal
@@ -9,7 +11,7 @@ const ContactModal = ({ isOpen, onClose, listing, userType }) => {
       className="fixed inset-0 flex items-center justify-center"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-black p-6 rounded-lg shadow-xl max-w-md w-full">
+      <div className={`bg-black p-6 rounded-lg shadow-xl max-w-md w-full ${styles.contact}`}>
         <h2 className="text-2xl font-bold mb-4">
           Contact {userType === 'seller' ? 'Seller' : 'Buyer'}
         </h2>

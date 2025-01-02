@@ -1,15 +1,18 @@
+'use client';
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import WalletQr from "../../Public/Images/wallet-qr-image.jpeg"
 import styles from "../../style/custom.module.scss"
 
 const Donate = () => {
   const walletAddress = "0x9dE9AF731425aD9Ec4EE0bF65D9523bfEed96d26";
+  const [isCopied, setisCopied] = useState(false);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(walletAddress);
-    alert("Wallet address copied to clipboard!");
+    setisCopied(true)
   };
 
   return (
@@ -26,13 +29,13 @@ const Donate = () => {
         
         <div className="text-center">
           <p className="mb-2 font-semibold">Wallet Address:</p>
-          <div className="flex items-center justify-center gap-2">
+          <div className={styles.walletAddress}>
             <code className="bg-black-100 p-2 rounded">{walletAddress}</code>
             <button 
-              // onClick={copyToClipboard}
+              onClick={copyToClipboard}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              Copy
+              {isCopied ? "Copied" : "Copy" } 
             </button>
           </div>
         </div>
