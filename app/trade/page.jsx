@@ -21,7 +21,7 @@ export default function TradePage() {
   const [selectedCoin, setSelectedCoin] = useState("all");
   const [selectedAction, setSelectedAction] = useState("buy");
   const [ads, setAds] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -124,7 +124,7 @@ export default function TradePage() {
                     size="sm" 
                     onClick={() => {
                       if (user) {
-                        setIsModalOpen(true);
+                        setSelectedListing(listing);
                       } else {
                         router.push('/auth/login');
                       }
@@ -132,12 +132,6 @@ export default function TradePage() {
                   >
                     Contact {listing.action !== "sell" ? 'Seller' : 'Buyer'}
                   </Button>
-                  <ContactModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    listing={listing}
-                    userType={listing.action !== "sell" ? 'seller' : 'buyer'}
-                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -145,6 +139,13 @@ export default function TradePage() {
        
         </Table>
       </Card>
+
+      <ContactModal
+        isOpen={selectedListing !== null}
+        onClose={() => setSelectedListing(null)}
+        listing={selectedListing}
+        userType={selectedListing?.action !== "sell" ? 'seller' : 'buyer'}
+      />
     </div>
   );
 }

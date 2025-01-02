@@ -4,6 +4,10 @@ import Modal from 'react-modal';
 import styles from "../style/custom.module.scss"
 
 const ContactModal = ({ isOpen, onClose, listing, userType }) => {
+
+  if(!isOpen) {
+    return;
+  }
   return (
     <Modal
       isOpen={isOpen}
