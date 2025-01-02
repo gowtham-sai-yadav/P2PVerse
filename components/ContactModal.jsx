@@ -8,7 +8,7 @@ const ContactModal = ({ isOpen, onClose, listing, userType }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="fixed inset-0 flex items-center justify-center"
+      className="fixed inset-0 flex text-white items-center justify-center"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
       <div className={`bg-black p-6 rounded-lg shadow-xl max-w-md w-full ${styles.contact}`}>
