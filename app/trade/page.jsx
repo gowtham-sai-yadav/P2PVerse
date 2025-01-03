@@ -81,7 +81,7 @@ export default function TradePage() {
           <div className={styles.prices}>
             <div className="p-4 bg-secondary rounded-lg">
               <div className="text-sm text-muted-foreground">UBIT/INR</div>
-              <div className="text-2xl font-bold">₹7.20 / $0.08</div>
+              <div className="text-2xl font-bold">₹9.00 / $0.1</div>
             </div>
             <div className="p-4 bg-secondary rounded-lg">
               <div className="text-sm text-muted-foreground">USC/INR</div>
