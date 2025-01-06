@@ -185,7 +185,6 @@ export function PostAdForm({ onSubmit }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="UBIT">UBIT</SelectItem>
                   <SelectItem value="USC">USC</SelectItem>
                   <SelectItem value="ULTRAVERSE">Ultraverse</SelectItem>
                 </SelectContent>

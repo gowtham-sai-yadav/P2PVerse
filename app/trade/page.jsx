@@ -68,7 +68,6 @@ export default function TradePage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Coins</SelectItem>
-            <SelectItem value="UBIT">UBIT</SelectItem>
             <SelectItem value="USC">USC</SelectItem>
             <SelectItem value="ULTRAVERSE">Ultraverse</SelectItem>
           </SelectContent>
@@ -79,10 +78,10 @@ export default function TradePage() {
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Live Market Prices</h2>
           <div className={styles.prices}>
-            <div className="p-4 bg-secondary rounded-lg">
+            {/* <div className="p-4 bg-secondary rounded-lg">
               <div className="text-sm text-muted-foreground">UBIT/INR</div>
               <div className="text-2xl font-bold">₹9.00 / $0.1</div>
-            </div>
+            </div> */}
             <div className="p-4 bg-secondary rounded-lg">
               <div className="text-sm text-muted-foreground">USC/INR</div>
               <div className="text-2xl font-bold">₹270.00 / $3.00</div>
